@@ -1,0 +1,20 @@
+.dropfile{
+    height:100px;
+    border:6px dotted #ccc;
+    font-size:16pt;
+
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.grid{
+    width:45px;
+    height:45px;
+    border:2px solid white;
+    float:left;
+
+}
+.grid.active{
+    border:2px solid black;
+}
