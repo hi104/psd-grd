@@ -1,4 +1,5 @@
 ///<reference path='css.ts' />
+///<reference path='svg.ts' />
 ///<reference path='simple-object-creater.ts' />
 ///<reference path='gradient.ts' />
 module PSDGradient{

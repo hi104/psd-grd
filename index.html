@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <script src="bootstrap.min.js"></script>
 
     <script type="text/javascript">
       var USE_TYPEDARRAY = true;
@@ -24,7 +25,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="#">PhotoShop .grd file convert CSS</a>
+          <a class="brand" href="#">PhotoShop .grd file convert CSS, SVG</a>
         </div>
       </div>
     </div>
@@ -57,14 +58,28 @@
             </div>
           </div>
           <div style="padding-top:20px;">
-            <h3>CSS</h3>
-            <textarea id="grad-info" style="width:100%;height:300px">
-            </textarea>
-          </div>
+            <ul class="nav nav-tabs" id="panel-tabs">
+              <li class="active">
+                <a href="#css-panel">CSS</a>
+              </li>
+              <li>
+                <a href="#svg-panel">SVG</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div id="css-panel" class="tab-pane active">
+                <textarea id="grad-info" style="width:100%;height:300px">
+                </textarea>
+              </div>
+              <div id="svg-panel" class="tab-pane">
+                <textarea id="svg-info" style="width:100%;height:300px">
+                </textarea>
+              </div>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="span6">
+        <div style="text-align:right">
+          <a class="btn" href="#" id="download-all-css" >Download All CSS</a>
+          <a class="btn" href="#" id="download-all-svg" >Download All SVG</a>
         </div>
       </div>
 

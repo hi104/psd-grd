@@ -2,6 +2,7 @@
 var gradients;
 var cssUtil;
 var gradientCssCreator;
+var gradientSvgCreator;
 
 function checkSupportFileApi(){
     if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -99,7 +100,7 @@ function start_parse(stream_reader){
             try{
                 var gradient = parser.parse();
 
-                var css = cssCreator.createGradientCss(gradient, {selector:"." + grad_id});
+                var css = cssCreator.create(gradient, {selector: "." + grad_id});
                 cssUtil.createCSSRule(grad_id, css);
 
                 var elm = $("<div></div>").addClass("gradient grid "+ grad_id);
@@ -125,18 +126,47 @@ function start_parse(stream_reader){
     parse();
 }
 
+function downloadAllSVG(){
+    var svg_text ="";
+    for (var id in gradients){
+        var svg = gradientSvgCreator.create(gradients[id], {id:id});
+        svg_text += svg + "\n";
+    }
+
+    $("#svg-info").val(svg_text);
+    var url_prefix ="data:text/txt, ";
+    var url = url_prefix + encodeURIComponent(svg_text);
+    window.open(url, "gradient.svg.txt", "");
+}
+
+function downloadAllCSS(){
+    var text ="";
+    for (var id in gradients){
+        var css = gradientCssCreator.create(gradients[id], {selector: "." + id});
+        text += css + "\n";
+    }
+
+    $("#svg-info").val(text);
+    var url_prefix ="data:text/txt, ";
+    var url = url_prefix + encodeURIComponent(text);
+    window.open(url, "gradient.css.txt", "");
+}
 
 function selectGradient(elem){
     var css_id = $(elem).data("grad");
-    $(".active").removeClass("active");
+    $("#gradient-panel .active").removeClass("active");
     elem.addClass("active");
     $("#sample-box").attr("class", css_id);
     var style = gradientCssCreator.createGradientStyle(gradients[css_id]);
+    var svg = gradientSvgCreator.create(gradients[css_id]);
+
     $("#grad-info").val(style);
+    $("#svg-info").val(svg);
 }
 
 $(function(){
     gradientCssCreator = new PSDGradient.CSSCreator();
+    gradientSvgCreator = new PSDGradient.SVGCreator();
     cssUtil = new CssUtil();
 
     if(checkSupportFileApi()){
@@ -151,4 +181,24 @@ $(function(){
         selectGradient($(this));
 
     });
+    $('#panel-tabs').on("click", "a", function(e){
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    $("#download-all-svg").on("click", function(e){
+        e.preventDefault();
+        if (Object.keys(gradients).length > 0){
+            downloadAllSVG();
+        }
+    });
+
+    $("#download-all-css").on("click", function(e){
+        e.preventDefault();
+        if (Object.keys(gradients).length > 0){
+            downloadAllCSS();
+        }
+    });
+
 });
+

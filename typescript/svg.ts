@@ -1,34 +1,20 @@
 module PSDGradient{
-    export class CSSCreator{
-
-        createGradientStyle(grad, options){
-
-            var vendors = ["-webkit-", "-moz-","-o-", "-ms-"];
-            var background = '  background: #{prefix}linear-gradient(top,';
-
-            var prefixs = vendors.map((e) =>{
-                return background.replace("#{prefix}", e);
-            });
-
-            prefixs.push("  linear-gradient(to bottom,");
-
-            var stops =  this.createGradeientStops(grad).map((e) =>{
-                return "    " + e;
-            }).join(",\n");
-            var styles = prefixs.map((e) => {
-                return [e, stops, "  );"].join("\n");
-            });
-
-            return styles.join("\n");
-        }
+    export class SVGCreator{
 
         create(grad, options){
-            var selector = options.selector + "{";
-            var css = [
-                selector,
-                this.createGradientStyle(grad, options),
-                "}"].join("\n");
-            return css;
+            var begin_tag ='<linearGradient id="#id">'
+            if(options && options.id){
+                begin_tag = begin_tag.replace('#id', options.id)
+            }
+            else{
+                begin_tag = begin_tag.replace('id="#id"', "")
+            }
+            var end_tag ='</linearGradient>'
+            var stops =  this.createGradeientStops(grad).map((e) =>{
+                return "    " + e;
+            }).join("\n");
+            return [begin_tag, stops, end_tag].join("\n");
+
         }
 
         createGradeientStops(grad_obj){
@@ -42,13 +28,13 @@ module PSDGradient{
                         Math.round(color.g),
                         Math.round(color.b),
                         opacity].join(', ');
-                    return "rgba(#rgba) #lctn%".replace("#rgba", rgba).replace("#lctn", lctn.toString());
+                    return "<stop stop-color='rgba(#rgba)' offset='#lctn%'/>".replace("#rgba", rgba).replace("#lctn", lctn.toString());
                 }else{
                     var hsla = [Math.round(color.hue).toString(),
                                 Math.round(color.saturation).toString() + "%",
                                 Math.round(color.brigtness).toString() + "%" ,
                                 opacity.toString()].join(', ');
-                    return "hsla(#hsla) #lctn%".replace("#hsla", hsla).replace("#lctn", lctn.toString());
+                    return "<stop stop-color='hsla(#hsla)' offset='#lctn%'/>".replace("#hsla", hsla).replace("#lctn", lctn.toString());
                 }
             });
         }
