@@ -2,7 +2,7 @@ PSD Gradient
 ==========================
 PhotoShop gradient file (.grd file) parser written in javascript (typescript)
 
-http://hi104.github.com/psd-grd/
+https://hi104.github.io/psd-grd/
 
 License
 -----------------
